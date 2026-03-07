@@ -1,0 +1,5 @@
+
+python -m musicz_pygm.run 参数
+参数如下:
+    [-f/--fp=]额外配置文件(没啥用)
+    [-t/--default=]主要配置文件(默认预制的play.js)
