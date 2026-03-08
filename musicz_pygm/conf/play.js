@@ -25,6 +25,20 @@ init: {
         // 背景音乐结束后运行结束
         stop: true
     }
+    // 背景音乐(记录模式)
+    record: {
+        // 背景音默认音量比例
+        power_rate: 1.0
+        // 播放速度加速比
+        speed_rate: 1.0
+        // 背景乐谱文件，没有则不会有背景音
+        fp: null
+        // fp: r"D:\rootz\python\gits\musicz_pygm_upd\musicz_pygm\conf\kl.js"
+        // 背景音乐循环
+        loop: true
+        // 背景音乐结束后运行结束
+        stop: true
+    }
     select: {
         channel: 0 // MIDI通道号（0-15），9号通道通常预留给打击乐, 0是钢琴
         bank: 0 //音色库编号（0-16383），GM标准中0为常规乐器，128为打击乐

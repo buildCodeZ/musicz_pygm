@@ -149,10 +149,12 @@ def loads_and_build(s, conf = {}):
 def test():
     import os
     dp = os.path.dirname(__file__)
-    fp = os.path.join(dp, 'conf', 'kl1.js')
+    fp = os.path.join(dp, 'conf', 'kl.js')
     s = fz.read(fp).decode()
     arr, info = load_fmt(s)
     print("info:", info)
+    print("arr:", arr)
+    print("arrx")
     channels,channel_unit = dz.g(info, channels=2,channel_unit=4)
     arr = build_fmt(arr, channels,channel_unit)
     for k in arr:
@@ -218,6 +220,7 @@ class FileRead(Base):
         self.sec = sec
         self.power = power
     def init(self, maps, obj):
+        maps = maps or {}
         self.th = None
         self.running = True
         self.obj = obj

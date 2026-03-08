@@ -37,7 +37,7 @@ class Play(Base):
         import json
         fp = time.strftime(fp)
         dt = json.dumps(self.records).encode("utf-8")
-        print(f"save to {fp}:", len(self.records), len(dt))
+        print(f"save to {fp}")
         with open(fp, 'wb') as file:
             file.write(dt)
 

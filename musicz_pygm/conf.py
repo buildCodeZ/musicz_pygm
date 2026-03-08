@@ -1,7 +1,7 @@
 #
 from buildz import xf, fz, pyz, dz, Args, Base
 import os,threading
-from . import playz, keyz, fmt
+from . import playz, keyz, fmt, rd
 def loadf(fps, sys_conf={}):
     #print(fps)
     confs = [xf.loadf(fp) for fp in fps]
@@ -44,7 +44,7 @@ class Conf(Base):
         self.fps = fps
         self.conf = conf
         self.lock = threading.Lock()
-        sfile, fps, select, sample_rate, libpath, background, debug = conf("init").gets("sfile, fps, select, sample_rate, libpath, background,debug", default_src, 30, {}, 44100, None, {}, False)
+        sfile, fps, select, sample_rate, libpath, background, debug,record = conf("init").gets("sfile, fps, select, sample_rate, libpath, background,debug,record", default_src, 30, {}, 44100, None, {}, False)
         self.trs = conf.get("transforms", {})
         background = fmt.FileRead(background, self)
         play = playz.Play(fps=fps, sample_rate=sample_rate)
@@ -52,6 +52,7 @@ class Conf(Base):
         channel = dz.g(select, channel= 0)
         self.channel= channel
         self.background = background
+        self.record = rd.FileRead(record, self)
         self.play = play
         width,height, noframe = conf("display").gets("width, height, noframe", 900,400,False)
         width,height, noframe = conf("init").gets("width, height, noframe", width,height, noframe)
@@ -181,10 +182,10 @@ class Conf(Base):
         self.ks.bind_note(conf.get("change_mode"), lambda :str(self.mode))
         self.ks.key_color(conf.get("change_mode"), "opt")
         self.orders.set(conf.get("quit"), self.quit)
-    def dv_sound(self, do_press, n, power):
+    def dv_sound(self, do_press, n, power, ignore_mod=False):
         # 实际调用设备发音
         if not do_press:
-            if self.mode==0:
+            if self.mode==0 or ignore_mod:
                 self.play.unpress(n, self.channel)
                 with self.lock:
                     if n in self.to_stops:
@@ -210,10 +211,12 @@ class Conf(Base):
         self.running = True
         self.play.start()
         self.background.start()
+        self.record.start()
         self.ks.run()
     def close(self):
         self.ks.stop()
         self.background.stop()
+        self.record.stop()
         self.play.stop()
         self.play.close(self.save_fp)
     def stop(self, conf):
@@ -248,7 +251,7 @@ from buildz import argx
 s_help = fz.fread(path("help.txt")).decode("utf-8")
 def test():
     import time,sys
-    ft = argx.Fetch(*xf.loads("[fp,sfile,libpath,default,help],{f:fp,s:sfile,l:libpath,t:default,b:background,h:help,w:width,h:height}"))
+    ft = argx.Fetch(*xf.loads("[fp,sfile,libpath,default,help],{f:fp,s:sfile,l:libpath,t:default,b:background,h:help,w:width,h:height,r:record}"))
     rst = ft(sys.argv[1:])
     if 'help' in rst:
         print(s_help)
@@ -266,6 +269,11 @@ def test():
         del rst['background']
         background = {'fp':background}
         rst['background'] = background
+    if 'record' in rst:
+        record = rst['record']
+        del rst['record']
+        record = {'fp':record}
+        rst['record'] = record
     if default in (0,'0'):
         default = None
     elif default in (1,'1'):
