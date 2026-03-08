@@ -275,6 +275,7 @@ def test():
     sys_conf = {'init':rst}
     print("run success, enter 'esc' to quit")
     print("运行中,按下'esc'键来退出")
+    print("如果按键没声音，可能是切换到中文输入法了，再切换下")
     conf = Conf(fps, sys_conf)
     conf.start()
     #conf.wait()
