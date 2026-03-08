@@ -3,7 +3,7 @@ from buildz import xf, fz, pyz, dz, Args, Base
 import os,threading
 from . import playz, keyz, fmt
 def loadf(fps, sys_conf={}):
-    print(fps)
+    #print(fps)
     confs = [xf.loadf(fp) for fp in fps]
     conf = dz.Conf(spt="..")
     for obj in confs:
@@ -54,6 +54,8 @@ class Conf(Base):
         self.background = background
         self.play = play
         width,height, noframe = conf("display").gets("width, height, noframe", 900,400,False)
+        width,height, noframe = conf("init").gets("width, height, noframe", width,height, noframe)
+        width,height, noframe = int(width),int(height), int(noframe)
         self.ks = keyz.Keys(self.press_callback, debug, width,height,noframe)
         #self.vars = vs
         self.save_fp = None
@@ -128,7 +130,7 @@ class Conf(Base):
                 self.moves[label] = 0
             else:
                 self.moves[label] = val
-            print(f"moves[{label}]:", self.moves[label])
+            #print(f"moves[{label}]:", self.moves[label])
         return fc
     def make_power(self, way, label):
         def fc(conf):
@@ -138,7 +140,7 @@ class Conf(Base):
                 self.ipowers[label] = min(self.ipowers[label]+1, len(self.powers[label])-1)
             else:
                 self.ipowers[label] = max(self.ipowers[label]-1, 0)
-            print(f"{label} power change to {self.powers[label][self.ipowers[label]]}")
+            #print(f"{label} power change to {self.powers[label][self.ipowers[label]]}")
         return fc
     def make_base(self, chars, way,label):
         # 移动基准音
@@ -150,7 +152,7 @@ class Conf(Base):
                 self.ibases[label] = min(self.ibases[label]+1, len(self.bases[label])-1)
             else:
                 self.ibases[label] = max(self.ibases[label]-1, 0)
-            print(f"{label} base change to {self.bases[label][self.ibases[label]]}")
+            #print(f"{label} base change to {self.bases[label][self.ibases[label]]}")
         def fc2(conf):
             c1 = chars[1]
             if not conf.get("press"):
@@ -230,7 +232,7 @@ class Conf(Base):
         if not conf.get("press"):
             return
         self.mode = 1-self.mode
-        print(f"mode: {self.mode}")
+        #print(f"mode: {self.mode}")
     def fix_power(self, n,power):
         vmin, vmax = dz.g(self.soundfix, min=0, max=0)
         vdst = vmax-vmin
@@ -246,7 +248,7 @@ from buildz import argx
 s_help = fz.fread(path("help.txt")).decode("utf-8")
 def test():
     import time,sys
-    ft = argx.Fetch(*xf.loads("[fp,sfile,libpath,default,help],{f:fp,s:sfile,l:libpath,t:default,b:background,h:help}"))
+    ft = argx.Fetch(*xf.loads("[fp,sfile,libpath,default,help],{f:fp,s:sfile,l:libpath,t:default,b:background,h:help,w:width,h:height}"))
     rst = ft(sys.argv[1:])
     if 'help' in rst:
         print(s_help)
@@ -271,12 +273,12 @@ def test():
     if default:
         fps = [path(default)]+fps
     sys_conf = {'init':rst}
+    print("run success, enter 'esc' to quit")
+    print("运行中,按下'esc'键来退出")
     conf = Conf(fps, sys_conf)
     conf.start()
-    print("run success, enter '~' to quit")
-    print("运行中,按下'~'键来退出")
     #conf.wait()
-    print("release")
+    #print("release")
     conf.close()
 
 pass

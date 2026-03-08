@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'musicz_pygm',
-    version = '0.1.0',
+    version = '0.1.1',
     keywords='musicz_pygm',
     long_description=open('README.md', 'r', encoding="utf-8").read(),
     long_description_content_type='text/markdown',
@@ -19,5 +19,5 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     platforms = 'any',
-    install_requires = ['buildz>=0.9.10','pygame>=2.6.0'],
+    install_requires = ['buildz>=0.9.14','pygame>=2.6.0'],
 )
