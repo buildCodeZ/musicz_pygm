@@ -117,7 +117,7 @@ class Keys(Base):
         return None
     def stop(self):
         self.running=False
-    def init(self, fc=None,debug=False,width=1400,height=600,noframe=False):
+    def init(self, fc=None,debug=False,width=1400,height=600,noframe=False,tick=120):
         '''
             callback: fc(char, press=bool)
         '''
@@ -131,6 +131,7 @@ class Keys(Base):
         self.keys= set()
         self.mouse_key=None
         self.running=True
+        self.tick = tick
     def get_key_from_pos(self, pos):
         """给定鼠标坐标，返回按下了哪个键"""
         x, y = pos
@@ -213,6 +214,7 @@ class Keys(Base):
                             self.release(self.mouse_key, False)
                             self.mouse_key = None
             self.win.update()
+            clock.tick(self.tick)
 
 pass
 

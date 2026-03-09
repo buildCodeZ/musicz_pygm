@@ -54,10 +54,10 @@ class Conf(Base):
         self.background = background
         self.record = rd.FileRead(record, self)
         self.play = play
-        width,height, noframe = conf("display").gets("width, height, noframe", 900,400,False)
-        width,height, noframe = conf("init").gets("width, height, noframe", width,height, noframe)
-        width,height, noframe = int(width),int(height), int(noframe)
-        self.ks = keyz.Keys(self.press_callback, debug, width,height,noframe)
+        width,height, noframe, tick = conf("display").gets("width, height, noframe, tick", 900,400,False,120)
+        width,height, noframe, tick = conf("init").gets("width, height, noframe, tick", width,height, noframe, tick)
+        width,height, noframe, tick = int(width),int(height), int(noframe), int(tick)
+        self.ks = keyz.Keys(self.press_callback, debug, width,height,noframe, tick)
         #self.vars = vs
         self.save_fp = None
         if conf('saves').get("work",0) or conf('init').get("save",0):
@@ -251,7 +251,7 @@ from buildz import argx
 s_help = fz.fread(path("help.txt")).decode("utf-8")
 def test():
     import time,sys
-    ft = argx.Fetch(*xf.loads("[fp,sfile,libpath,default,help],{f:fp,s:sfile,l:libpath,t:default,b:background,h:help,w:width,h:height,r:record}"))
+    ft = argx.Fetch(*xf.loads("[fp,sfile,libpath,default,help],{f:fp,s:sfile,l:libpath,t:default,b:background,h:help,w:width,h:height,r:record,t:tick}"))
     rst = ft(sys.argv[1:])
     if 'help' in rst:
         print(s_help)
