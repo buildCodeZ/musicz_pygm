@@ -1,2 +1,5 @@
 include README.md
 recursive-include musicz_pygm *
+global-exclude *.pyc
+global-exclude *.dt
+global-exclude *.log

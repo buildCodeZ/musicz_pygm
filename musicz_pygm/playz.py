@@ -1,5 +1,5 @@
 #
-from buildz import Base
+from buildz.base import Args, Base
 import pygame.midi
 import time,threading
 __doc__="""

@@ -1,5 +1,6 @@
 #
-from buildz import xf, fz, pyz, dz, Args, Base
+from buildz import xf, fz, pyz, dz
+from buildz.base import Args, Base
 import os,threading
 from . import playz, keyz, fmt, rd
 def loadf(fps, sys_conf={}):

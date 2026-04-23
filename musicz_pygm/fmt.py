@@ -1,6 +1,7 @@
 #
 
-from buildz import Base, dz, fz, xf
+from buildz.base import Args, Base
+from buildz import dz, fz, xf
 from buildz.xf.readz import *
 import time,threading
 def build_mcfmt(as_bytes=False):

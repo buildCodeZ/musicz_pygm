@@ -76,7 +76,7 @@ for k,n,v in shows:
 
 pass
 
-from buildz import Base
+from buildz.base import Args, Base
 import threading
 class Keys(Base):
     def key_color(self, key, color):

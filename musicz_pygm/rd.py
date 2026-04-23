@@ -1,6 +1,7 @@
 #
 
-from buildz import Base, dz, fz, xf
+from buildz.base import Args, Base
+from buildz import dz, fz, xf
 import time,threading
 import json
 class FileRead(Base):

@@ -14,7 +14,7 @@ init: {
         // 如果有多个弹奏，每多少节放到一个弹奏里，轮流放
         channel_unit: 4
         // 按键1的音调
-        base: 72
+        base: 60
         // 背景乐谱文件，没有则不会有背景音
         fp: null
         // fp: r"D:\rootz\python\gits\musicz_pygm_upd\musicz_pygm\conf\kl.js"
